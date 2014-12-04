@@ -19,6 +19,13 @@
   "license": "MIT",
   "ignore": [
     "**/.*",
+    "demo",
+    "demo.html",
+    "Gruntfile.coffee",
+    "package.json",
+    "README.md",
+    "knockout-pickadate.coffee",
+    "bower.json",
     "node_modules",
     "bower_components",
     "test",
