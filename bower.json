@@ -1,0 +1,27 @@
+{
+  "name": "knockout-pickadate-binding",
+  "version": "0.1.0",
+  "homepage": "https://github.com/immense/knockout-pickadate",
+  "authors": [
+    "Christian Bankester <cbankester@immense.net>"
+  ],
+  "description": "This binding adds a [pickadate.js datepicker](http://amsul.ca/pickadate.js) and binds it to a knockout observable.",
+  "main": "knockout-pickadate.min.js",
+  "keywords": [
+    "knockout",
+    "pickadate",
+    "datepicker",
+    "bootstrap",
+    "fontawesome",
+    "knockout-pickadate",
+    "knockout-datepicker"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}

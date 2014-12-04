@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta content="text/html;charset=utf-8" http-equiv="Content-Type">
+  <meta content="utf-8" http-equiv="encoding">
+  <title>Knockout Pickadate</title>
+  <link rel='stylesheet' type='text/css' href='http://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css'>
+  <script src='http://code.jquery.com/jquery-2.1.1.min.js'></script>
+  <script src='http://cdnjs.cloudflare.com/ajax/libs/knockout/3.1.0/knockout-min.js'></script>
+
+  <script src='knockout-pickadate.min.js'></script>
+  <script src='demo/pickadate.min.js'></script>
+  <link href='demo/pickadate.css' type='text/css' rel='stylesheet'></link>
+  <style type='text/css'>
+  /* yanked from bootstrap demos: http://getbootstrap.com/examples/jumbotron-narrow/ */
+
+  /* Space out content a bit */
+  body {
+    padding-top: 20px;
+    padding-bottom: 20px;
+  }
+
+  /* Everything but the jumbotron gets side spacing for mobile first views */
+  .header,
+  .marketing,
+  .footer {
+    padding-left: 15px;
+    padding-right: 15px;
+  }
+
+  /* Custom page header */
+  .header {
+    border-bottom: 1px solid #e5e5e5;
+  }
+  /* Make the masthead heading the same height as the navigation */
+  .header h3 {
+    margin-top: 0;
+    margin-bottom: 0;
+    line-height: 40px;
+    padding-bottom: 19px;
+  }
+
+  /* Custom page footer */
+  .footer {
+    padding-top: 19px;
+    color: #777;
+    border-top: 1px solid #e5e5e5;
+  }
+
+  /* Customize container */
+  @media (min-width: 768px) {
+    .container {
+      max-width: 730px;
+    }
+  }
+  .container-narrow > hr {
+    margin: 30px 0;
+  }
+
+  /* Main marketing message and sign up button */
+  .jumbotron {
+    text-align: center;
+    border-bottom: 1px solid #e5e5e5;
+  }
+  .jumbotron .btn {
+    font-size: 21px;
+    padding: 14px 24px;
+  }
+
+  /* Supporting marketing content */
+  .marketing {
+    margin: 40px 0;
+  }
+  .marketing p + h4 {
+    margin-top: 28px;
+  }
+
+  /* Responsive: Portrait tablets and up */
+  @media screen and (min-width: 768px) {
+    /* Remove the padding we set earlier */
+    .header,
+    .marketing,
+    .footer {
+      padding-left: 0;
+      padding-right: 0;
+    }
+    /* Space out the masthead */
+    .header {
+      margin-bottom: 30px;
+    }
+    /* Remove the bottom border on the jumbotron for visual effect */
+    .jumbotron {
+      border-bottom: 0;
+    }
+  }
+
+  dd {
+    margin-bottom: 1em;
+  }
+
+</style>
+
+<script type='text/javascript'>
+  $(function() {
+
+    window.view = {
+      date: ko.observable()
+    };
+
+    ko.applyBindings(view);
+
+  });
+</script>
+</head>
+<body>
+  <div class='container'>
+    <div class='header'>
+      <ul class='nav nav-pills pull-right'>
+        <li class='active'><a href="#">Demo</a></li>
+        <li><a href='https://github.com/immense/knockout-pickadate'>Code</a></li>
+      </ul>
+      <h3 class='text-muted'>Knockout Pickadate</h3>
+    </div>
+    <div class='jumbotron'>
+      <h1>Knockout Pickadate Demo</h1>
+    </div>
+    <div class='row'>
+      <div class='col-md-12'>
+
+        <h2>Simple example</h2>
+        <section id="simple-example">
+          <p>Use the <code>pickadate</code> binding on any <code>input[type="text"]</code> element.</p>
+
+          <label>View Model:</label>
+          <pre>
+            window.view = {
+              date: ko.observable()
+            };
+
+            ko.applyBindings(view);
+          </pre>
+
+          <label>Markup:</label>
+          <pre>
+            &lt;input type='text' data-bind='pickadate: date'&gt;
+            &lt;p&gt;
+              &lt;strong&gt;Value:&lt;/strong&gt;
+              &lt;span data-bind='text: date'&gt;&lt;/span&gt;
+            &lt;/p&gt;
+          </pre>
+
+          <h3>Result:</h3>
+          <div class="form-horizontal">
+            <label for="date" class="control-label col-sm-2">Date</label>
+            <div class="col-sm-10">
+              <input id="date" type='text' class='form-control' data-bind='pickadate: date'>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-2 text-right">
+              <strong>Value: </strong>
+            </div>
+            <div class="col-sm-10">
+              <span data-bind='text: date'></span>
+            </div>
+          </div>
+        </section>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-16">
+        <h2>Options:</h3>
+        <section id="options">
+          <p>You can pass in the following options as the <code>pickadate_options</code> binding:</p>
+          <dl class='dl-horizontal'>
+            <dt>Pickadate</dt>
+            <dd>See <a href="http://amsul.ca/pickadate.js/date.htm#options">Pickadate</a> for a list of options available. All options specified in <code>pickadate_options</code> will be passed to pickadate.</dd>
+            <dt><code>calendar_addon</code></dt>
+            <dd><code>true</code> to enable the calendar button addon. <em>Default:</em> <code>false</code></dd>
+              <dt><code>update_as_date</code></dt>
+              <dd>
+                <code>true</code> to make the binding update the observable with a JavaScript <code>Date</code> object instead of text. <em>Default:</em> <code>false</code>
+                <br>
+                <strong>Note:</strong> Requires Bootstrap 3 and Font Awesome
+              </dd>
+            </dl>
+          </section>
+      </div>
+    </div>
+    <div class='footer'>
+      <p>&copy; Immense Networks 2014</p>
+    </div>
+  </div>
+</body>
+</html>
