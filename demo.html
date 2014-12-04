@@ -5,112 +5,56 @@
   <meta content="utf-8" http-equiv="encoding">
   <title>Knockout Pickadate</title>
   <link rel='stylesheet' type='text/css' href='http://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css'>
+  <link rel="stylesheet" type='text/css' href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css">
   <script src='http://code.jquery.com/jquery-2.1.1.min.js'></script>
   <script src='http://cdnjs.cloudflare.com/ajax/libs/knockout/3.1.0/knockout-min.js'></script>
 
   <script src='knockout-pickadate.min.js'></script>
   <script src='demo/pickadate.min.js'></script>
   <link href='demo/pickadate.css' type='text/css' rel='stylesheet'></link>
-  <style type='text/css'>
-  /* yanked from bootstrap demos: http://getbootstrap.com/examples/jumbotron-narrow/ */
+  <link href='demo/style.css' type='text/css' rel='stylesheet'></link>
 
-  /* Space out content a bit */
-  body {
-    padding-top: 20px;
-    padding-bottom: 20px;
-  }
+  <script type='text/javascript'>
+    $(function() {
 
-  /* Everything but the jumbotron gets side spacing for mobile first views */
-  .header,
-  .marketing,
-  .footer {
-    padding-left: 15px;
-    padding-right: 15px;
-  }
+      window.view1 = {
+        date: ko.observable()
+      };
 
-  /* Custom page header */
-  .header {
-    border-bottom: 1px solid #e5e5e5;
-  }
-  /* Make the masthead heading the same height as the navigation */
-  .header h3 {
-    margin-top: 0;
-    margin-bottom: 0;
-    line-height: 40px;
-    padding-bottom: 19px;
-  }
+      ko.applyBindings(view1, $('#simple-example-section .result')[0]);
 
-  /* Custom page footer */
-  .footer {
-    padding-top: 19px;
-    color: #777;
-    border-top: 1px solid #e5e5e5;
-  }
+      window.view2 = {
+        date: ko.observable(),
+        pickadateOptions: {
+          format: "yyyy",
+          onOpen: function() {
+            console.log('opened!')
+          }
+        }
+      };
 
-  /* Customize container */
-  @media (min-width: 768px) {
-    .container {
-      max-width: 730px;
-    }
-  }
-  .container-narrow > hr {
-    margin: 30px 0;
-  }
+      ko.applyBindings(view2, $('#pickadate-options-example .result')[0]);
 
-  /* Main marketing message and sign up button */
-  .jumbotron {
-    text-align: center;
-    border-bottom: 1px solid #e5e5e5;
-  }
-  .jumbotron .btn {
-    font-size: 21px;
-    padding: 14px 24px;
-  }
+      window.view3 = {
+        date: ko.observable(),
+        pickadateOptions: {
+          calendar_addon: true
+        }
+      };
 
-  /* Supporting marketing content */
-  .marketing {
-    margin: 40px 0;
-  }
-  .marketing p + h4 {
-    margin-top: 28px;
-  }
+      ko.applyBindings(view3, $('#calendar-addon-example .result')[0]);
 
-  /* Responsive: Portrait tablets and up */
-  @media screen and (min-width: 768px) {
-    /* Remove the padding we set earlier */
-    .header,
-    .marketing,
-    .footer {
-      padding-left: 0;
-      padding-right: 0;
-    }
-    /* Space out the masthead */
-    .header {
-      margin-bottom: 30px;
-    }
-    /* Remove the bottom border on the jumbotron for visual effect */
-    .jumbotron {
-      border-bottom: 0;
-    }
-  }
+      window.view4 = {
+        date: ko.observable(),
+        pickadateOptions: {
+          update_as_date: true
+        }
+      };
 
-  dd {
-    margin-bottom: 1em;
-  }
+      ko.applyBindings(view4, $('#update-as-date-example .result')[0]);
 
-</style>
-
-<script type='text/javascript'>
-  $(function() {
-
-    window.view = {
-      date: ko.observable()
-    };
-
-    ko.applyBindings(view);
-
-  });
-</script>
+    });
+  </script>
 </head>
 <body>
   <div class='container'>
@@ -127,17 +71,17 @@
     <div class='row'>
       <div class='col-md-12'>
 
-        <h2>Simple example</h2>
-        <section id="simple-example">
+        <h2><a href="#simple-example" name="simple-example">&sect;</a> Simple example</h2>
+        <section id="simple-example-section">
           <p>Use the <code>pickadate</code> binding on any <code>input[type="text"]</code> element.</p>
 
           <label>View Model:</label>
           <pre>
-            window.view = {
+            window.view1 = {
               date: ko.observable()
             };
 
-            ko.applyBindings(view);
+            ko.applyBindings(view1, $('#simple-example-section .result')[0]);
           </pre>
 
           <label>Markup:</label>
@@ -150,41 +94,176 @@
           </pre>
 
           <h3>Result:</h3>
-          <div class="form-horizontal">
-            <label for="date" class="control-label col-sm-2">Date</label>
-            <div class="col-sm-10">
-              <input id="date" type='text' class='form-control' data-bind='pickadate: date'>
+          <section class="result">
+            <div class="form-horizontal">
+              <div class="form-group">
+                <label for="date" class="control-label col-sm-2">Date</label>
+                <div class="col-sm-10">
+                  <input id="date" type='text' class='form-control' data-bind='pickadate: date'>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="control-label col-sm-2">Value</label>
+                <div class="col-sm-10">
+                  <p class="form-control-static" data-bind="text: date"></p>
+                </div>
+              </div>
             </div>
-          </div>
-          <div class="row">
-            <div class="col-sm-2 text-right">
-              <strong>Value: </strong>
-            </div>
-            <div class="col-sm-10">
-              <span data-bind='text: date'></span>
-            </div>
-          </div>
+          </section>
         </section>
       </div>
     </div>
+    <hr>
     <div class="row">
       <div class="col-md-16">
-        <h2>Options:</h3>
-        <section id="options">
-          <p>You can pass in the following options as the <code>pickadate_options</code> binding:</p>
-          <dl class='dl-horizontal'>
-            <dt>Pickadate</dt>
-            <dd>See <a href="http://amsul.ca/pickadate.js/date.htm#options">Pickadate</a> for a list of options available. All options specified in <code>pickadate_options</code> will be passed to pickadate.</dd>
-            <dt><code>calendar_addon</code></dt>
-            <dd><code>true</code> to enable the calendar button addon. <em>Default:</em> <code>false</code></dd>
-              <dt><code>update_as_date</code></dt>
-              <dd>
-                <code>true</code> to make the binding update the observable with a JavaScript <code>Date</code> object instead of text. <em>Default:</em> <code>false</code>
-                <br>
-                <strong>Note:</strong> Requires Bootstrap 3 and Font Awesome
-              </dd>
-            </dl>
+        <h2>Options:</h2>
+        <p>The following options can be passed as the <code>pickadate_options</code> binding:</p>
+        <h3><a href="#pickadate-options" name="pickadate-options">&sect;</a> <em>Pickadate Options</em></h3>
+        <p>
+          See <a href="http://amsul.ca/pickadate.js/date.htm#options">Pickadate</a> for a list of options available. All options specified in <code>pickadate_options</code> will be passed to pickadate.
+        </p>
+        <h4>Example:</h4>
+        <section id="pickadate-options-example">
+          <label>View Model:</label>
+          <pre>
+            <code class="javascript">
+              window.view2 = {
+                date: ko.observable(),
+                pickadateOptions: {
+                  format: "yyyy",
+                  onOpen: function() {
+                    console.log('opened!')
+                  }
+                }
+              };
+
+              ko.applyBindings(view2, $('#pickadate-options-example .result')[0]);
+            </code>
+          </pre>
+
+          <label>Markup:</label>
+          <pre>
+            &lt;input type='text' data-bind='pickadate: date, pickadate_options: pickadateOptions'&gt;
+            &lt;p&gt;
+              &lt;strong&gt;Value:&lt;/strong&gt;
+              &lt;span data-bind='text: date'&gt;&lt;/span&gt;
+            &lt;/p&gt;
+          </pre>
+          <label>Result:</label>
+          <section class="result">
+            <div class="form-horizontal">
+              <div class="form-group">
+                <label for="date" class="control-label col-sm-2">Date</label>
+                <div class="col-sm-10">
+                  <input id="date" type='text' class='form-control' data-bind='pickadate: date, pickadate_options: pickadateOptions'>
+                  <span class="help-block">Hint: crack open the console to some logging</span>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="control-label col-sm-2">Value</label>
+                <div class="col-sm-10">
+                  <p class="form-control-static" data-bind="text: date"></p>
+                </div>
+              </div>
+            </div>
           </section>
+        </section>
+        <hr>
+        <h3><a href="#calendar-addon-option" name="calendar-addon-option">&sect;</a> <em>calendar_addon</em></h3>
+        <p>
+          Set to <code>true</code> to enable the calendar button addon.
+          <br>
+          <em>Default:</em> <code>false</code>
+          <br>
+          <strong>Note:</strong> Requires Bootstrap 3 and Font Awesome
+        </p>
+        <h4>Example:</h4>
+        <section id="calendar-addon-example">
+          <label>View Model:</label>
+          <pre>
+            window.view3 = {
+              date: ko.observable(),
+              pickadateOptions: {
+                calendar_addon: true
+              }
+            };
+
+            ko.applyBindings(view3, $('#calendar-addon-example .result')[0]);
+          </pre>
+
+          <label>Markup:</label>
+          <pre>
+            &lt;input type='text' data-bind='pickadate: date, pickadate_options: pickadateOptions'&gt;
+            &lt;p&gt;
+              &lt;strong&gt;Value:&lt;/strong&gt;
+              &lt;span data-bind='text: date'&gt;&lt;/span&gt;
+            &lt;/p&gt;
+          </pre>
+          <label>Result:</label>
+          <section class="result">
+            <div class="form-horizontal">
+              <div class="form-group">
+                <label for="date" class="control-label col-sm-2">Date</label>
+                <div class="col-sm-10">
+                  <input id="date" type='text' class='form-control' data-bind='pickadate: date, pickadate_options: pickadateOptions'>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="control-label col-sm-2">Value</label>
+                <div class="col-sm-10">
+                  <p class="form-control-static" data-bind="text: date"></p>
+                </div>
+              </div>
+            </div>
+          </section>
+        </section>
+        <hr>
+        <h3><a href="#update-as-date-option" name="update-as-date-option">&sect;</a> <em>update_as_date</em></h3>
+        <p>
+          Set to <code>true</code> to make the binding update the observable with a JavaScript <code>Date</code> object instead of text.
+          <br>
+          <em>Default:</em> <code>false</code>
+        </p>
+        <h4>Example:</h4>
+        <section id="update-as-date-example">
+          <label>View Model:</label>
+          <pre>
+            window.view4 = {
+              date: ko.observable(),
+              pickadateOptions: {
+                update_as_date: true
+              }
+            };
+
+            ko.applyBindings(view4, $('#update-as-date-example .result')[0]);
+          </pre>
+
+          <label>Markup:</label>
+          <pre>
+            &lt;input type='text' data-bind='pickadate: date, pickadate_options: pickadateOptions'&gt;
+            &lt;p&gt;
+              &lt;strong&gt;Value:&lt;/strong&gt;
+              &lt;span data-bind='text: date'&gt;&lt;/span&gt;
+            &lt;/p&gt;
+          </pre>
+          <label>Result:</label>
+          <section class="result">
+            <div class="form-horizontal">
+              <div class="form-group">
+                <label for="date" class="control-label col-sm-2">Date</label>
+                <div class="col-sm-10">
+                  <input id="date" type='text' class='form-control' data-bind='pickadate: date, pickadate_options: pickadateOptions'>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="control-label col-sm-2">Value</label>
+                <div class="col-sm-10">
+                  <p class="form-control-static" data-bind="text: date"></p>
+                </div>
+              </div>
+            </div>
+          </section>
+        </section>
       </div>
     </div>
     <div class='footer'>
