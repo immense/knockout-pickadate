@@ -1,7 +1,7 @@
 (function() {
   ko.bindingHandlers.pickadate = {
     init: function(element, valueAccessor, allBindings) {
-      var $calendar_addon, $clear_button_addon, key, options, options_from_binding, pickadate_options, picker, val, value, wrapper_id, _init_picker;
+      var $calendar_addon, $clear_button_addon, calendar_addon_position, clear_button_addon_position, key, options, options_from_binding, pickadate_options, picker, val, value, wrapper_id, _init_picker;
       value = valueAccessor();
       options = {
         monthsFull: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
@@ -83,9 +83,13 @@
       if (options.clear_button_addon || options.calendar_addon) {
         wrapper_id = new Date().getTime();
         options.container = "#" + wrapper_id;
+        calendar_addon_position = options.calendar_addon === 'before' ? 'before' : 'after';
+        clear_button_addon_position = options.clear_button_addon === 'before' ? 'before' : 'after';
         $calendar_addon = options.calendar_addon ? $("<span class='input-group-addon'>" + "<i style='color: navy; cursor: pointer'" + "title='A calendar appears when interacting with this field'" + "class='fa fa-calendar'>" + "</i>" + "</span>") : void 0;
         $clear_button_addon = options.clear_button_addon ? $("<span class='input-group-addon'>" + "<i style='color: navy; cursor: pointer'" + "title='Click to clear date'" + "class='fa fa-times'>" + "</i>" + "</span>") : void 0;
-        picker = _init_picker($(element).wrap($("<div id=" + wrapper_id + "></div>")).wrap($("<div class='input-group'></div>")).after($clear_button_addon).after($calendar_addon));
+        picker = _init_picker($(element).wrap($("<div id=" + wrapper_id + "></div>")).wrap($("<div class='input-group'></div>")));
+        $(element)[clear_button_addon_position]($clear_button_addon);
+        $(element)[calendar_addon_position]($calendar_addon);
         if (options.calendar_addon) {
           $calendar_addon.on("click", function(event) {
             picker.open();
@@ -123,6 +127,9 @@
       ko.utils.domNodeDisposal.addDisposeCallback(element, function() {
         if (options.calendar_addon) {
           $calendar_addon.off('click');
+        }
+        if (options.clear_button_addon) {
+          $clear_button_addon.off('click');
         }
         if (picker.get('start')) {
           return picker.stop();
