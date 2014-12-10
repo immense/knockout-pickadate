@@ -1,7 +1,7 @@
 (function() {
   ko.bindingHandlers.pickadate = {
     init: function(element, valueAccessor, allBindings) {
-      var $calendar_addon, key, options, options_from_binding, pickadate_options, picker, val, value, wrapper_id, _init_picker;
+      var $calendar_addon, $clear_button_addon, key, options, options_from_binding, pickadate_options, picker, val, value, wrapper_id, _init_picker;
       value = valueAccessor();
       options = {
         monthsFull: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
@@ -80,16 +80,26 @@
         val = options_from_binding[key];
         options[key] = val;
       }
-      if (options.calendar_addon) {
+      if (options.clear_button_addon || options.calendar_addon) {
         wrapper_id = new Date().getTime();
         options.container = "#" + wrapper_id;
-        $calendar_addon = $("<span class='input-group-addon'>" + "<i style='color: navy; cursor: pointer'" + "title='A calendar appears when interacting with this field'" + "class='fa fa-calendar'>" + "</i>" + "</span>");
-        picker = _init_picker($(element).wrap($("<div id=" + wrapper_id + "></div>")).wrap($("<div class='input-group'></div>")).after($calendar_addon));
-        $calendar_addon.on("click", function(event) {
-          picker.open();
-          event.stopPropagation();
-          return event.preventDefault();
-        });
+        $calendar_addon = options.calendar_addon ? $("<span class='input-group-addon'>" + "<i style='color: navy; cursor: pointer'" + "title='A calendar appears when interacting with this field'" + "class='fa fa-calendar'>" + "</i>" + "</span>") : void 0;
+        $clear_button_addon = options.clear_button_addon ? $("<span class='input-group-addon'>" + "<i style='color: navy; cursor: pointer'" + "title='Click to clear date'" + "class='fa fa-times'>" + "</i>" + "</span>") : void 0;
+        picker = _init_picker($(element).wrap($("<div id=" + wrapper_id + "></div>")).wrap($("<div class='input-group'></div>")).after($clear_button_addon).after($calendar_addon));
+        if (options.calendar_addon) {
+          $calendar_addon.on("click", function(event) {
+            picker.open();
+            event.stopPropagation();
+            return event.preventDefault();
+          });
+        }
+        if (options.clear_button_addon) {
+          $clear_button_addon.on("click", function(event) {
+            picker.set('clear');
+            event.stopPropagation();
+            return event.preventDefault();
+          });
+        }
       } else {
         picker = _init_picker($(element));
       }

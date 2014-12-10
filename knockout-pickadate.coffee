@@ -43,7 +43,7 @@ ko.bindingHandlers.pickadate =
 
       # Disable dates
       disable: undefined
-    
+
       # Root container
       container: undefined
 
@@ -130,30 +130,54 @@ ko.bindingHandlers.pickadate =
     for key, val of options_from_binding
       options[key] = val
 
-    if options.calendar_addon
+    if options.clear_button_addon or options.calendar_addon
       wrapper_id = new Date().getTime()
       options.container = "##{wrapper_id}"
+      $calendar_addon =
+        if options.calendar_addon
+          $(
+            "<span class='input-group-addon'>" +
+              "<i style='color: navy; cursor: pointer'" +
+                "title='A calendar appears when interacting with this field'" +
+                "class='fa fa-calendar'>" +
+              "</i>" +
+            "</span>"
+          )
+        else
+          undefined
 
-      $calendar_addon = $(
-        "<span class='input-group-addon'>" +
-          "<i style='color: navy; cursor: pointer'" +
-            "title='A calendar appears when interacting with this field'" +
-            "class='fa fa-calendar'>" +
-          "</i>" +
-        "</span>"
-      )
+      $clear_button_addon =
+        if options.clear_button_addon
+          $(
+            "<span class='input-group-addon'>" +
+              "<i style='color: navy; cursor: pointer'" +
+                "title='Click to clear date'" +
+                "class='fa fa-times'>" +
+              "</i>" +
+            "</span>"
+          )
+        else
+          undefined
 
       picker = _init_picker(
         $(element)
           .wrap $("<div id=#{wrapper_id}></div>")
           .wrap $("<div class='input-group'></div>")
+          .after $clear_button_addon
           .after $calendar_addon
       )
 
-      $calendar_addon.on "click", (event) ->
-        picker.open()
-        event.stopPropagation()
-        event.preventDefault()
+      if options.calendar_addon
+        $calendar_addon.on "click", (event) ->
+          picker.open()
+          event.stopPropagation()
+          event.preventDefault()
+
+      if options.clear_button_addon
+        $clear_button_addon.on "click", (event) ->
+          picker.set('clear')
+          event.stopPropagation()
+          event.preventDefault()
     else
       picker = _init_picker $(element)
 
