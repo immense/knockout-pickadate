@@ -38,7 +38,8 @@
       window.view3 = {
         date: ko.observable(),
         pickadateOptions: {
-          calendar_addon: true
+          calendar_addon: true,
+          clear_button_addon: true
         }
       };
 
@@ -47,11 +48,20 @@
       window.view4 = {
         date: ko.observable(),
         pickadateOptions: {
+          clear_button_addon: true
+        }
+      };
+
+      ko.applyBindings(view4, $('#clear-button-addon-example .result')[0]);
+
+      window.view5 = {
+        date: ko.observable(),
+        pickadateOptions: {
           update_as_date: true
         }
       };
 
-      ko.applyBindings(view4, $('#update-as-date-example .result')[0]);
+      ko.applyBindings(view5, $('#update-as-date-example .result')[0]);
 
     });
   </script>
@@ -115,7 +125,7 @@
     </div>
     <hr>
     <div class="row">
-      <div class="col-md-16">
+      <div class="col-md-12">
         <h2>Options:</h2>
         <p>The following options can be passed as the <code>pickadate_options</code> binding:</p>
         <h3><a href="#pickadate-options" name="pickadate-options">&sect;</a> <em>Pickadate Options</em></h3>
@@ -218,6 +228,55 @@
           </section>
         </section>
         <hr>
+        <h3><a href="#clear-button-addon-option" name="clear-button-addon-option">&sect;</a> <em>clear_button_addon</em></h3>
+        <p>
+          Set to <code>true</code> to enable the clear-button button addon.
+          <br>
+          <em>Default:</em> <code>false</code>
+          <br>
+          <strong>Note:</strong> Requires Bootstrap 3 and Font Awesome
+        </p>
+        <h4>Example:</h4>
+        <section id="clear-button-addon-example">
+          <label>View Model:</label>
+          <pre>
+            window.view4 = {
+              date: ko.observable(),
+              pickadateOptions: {
+                clear_button_addon: true
+              }
+            };
+
+            ko.applyBindings(view4, $('#clear-button-addon-example .result')[0]);
+          </pre>
+
+          <label>Markup:</label>
+          <pre>
+            &lt;input type='text' data-bind='pickadate: date, pickadate_options: pickadateOptions'&gt;
+            &lt;p&gt;
+              &lt;strong&gt;Value:&lt;/strong&gt;
+              &lt;span data-bind='text: date'&gt;&lt;/span&gt;
+            &lt;/p&gt;
+          </pre>
+          <label>Result:</label>
+          <section class="result">
+            <div class="form-horizontal">
+              <div class="form-group">
+                <label for="date" class="control-label col-sm-2">Date</label>
+                <div class="col-sm-10">
+                  <input id="date" type='text' class='form-control' data-bind='pickadate: date, pickadate_options: pickadateOptions'>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="control-label col-sm-2">Value</label>
+                <div class="col-sm-10">
+                  <p class="form-control-static" data-bind="text: date"></p>
+                </div>
+              </div>
+            </div>
+          </section>
+        </section>
+        <hr>
         <h3><a href="#update-as-date-option" name="update-as-date-option">&sect;</a> <em>update_as_date</em></h3>
         <p>
           Set to <code>true</code> to make the binding update the observable with a JavaScript <code>Date</code> object instead of text.
@@ -228,14 +287,14 @@
         <section id="update-as-date-example">
           <label>View Model:</label>
           <pre>
-            window.view4 = {
+            window.view5 = {
               date: ko.observable(),
               pickadateOptions: {
                 update_as_date: true
               }
             };
 
-            ko.applyBindings(view4, $('#update-as-date-example .result')[0]);
+            ko.applyBindings(view5, $('#update-as-date-example .result')[0]);
           </pre>
 
           <label>Markup:</label>
