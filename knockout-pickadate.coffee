@@ -133,6 +133,8 @@ ko.bindingHandlers.pickadate =
     if options.clear_button_addon or options.calendar_addon
       wrapper_id = new Date().getTime()
       options.container = "##{wrapper_id}"
+      calendar_addon_position = if options.calendar_addon is 'before' then 'before' else 'after'
+      clear_button_addon_position = if options.clear_button_addon is 'before' then 'before' else 'after'
       $calendar_addon =
         if options.calendar_addon
           $(
@@ -163,9 +165,9 @@ ko.bindingHandlers.pickadate =
         $(element)
           .wrap $("<div id=#{wrapper_id}></div>")
           .wrap $("<div class='input-group'></div>")
-          .after $clear_button_addon
-          .after $calendar_addon
       )
+      $(element)[clear_button_addon_position] $clear_button_addon
+      $(element)[calendar_addon_position] $calendar_addon
 
       if options.calendar_addon
         $calendar_addon.on "click", (event) ->
@@ -195,8 +197,13 @@ ko.bindingHandlers.pickadate =
         value item
 
     ko.utils.domNodeDisposal.addDisposeCallback element, ->
+
       if options.calendar_addon
         $calendar_addon.off 'click'
+
+      if options.clear_button_addon
+        $clear_button_addon.off 'click'
+
       picker.stop() if picker.get('start')
 
     return
