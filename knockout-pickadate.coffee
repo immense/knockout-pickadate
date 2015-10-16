@@ -247,8 +247,7 @@ ko.bindingHandlers.pickadate =
             value item.obj
         else
           if item isnt value()
-            picker_val = picker.get()
-            value picker_val
+            value picker.get()
       else
         value item
 

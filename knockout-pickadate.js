@@ -113,7 +113,7 @@
         picker = _init_picker($(element));
       }
       picker.on('set', function(context) {
-        var item, picker_val, ref;
+        var item, ref;
         item = picker.get('select');
         if (item) {
           if (options.update_as_date) {
@@ -122,8 +122,7 @@
             }
           } else {
             if (item !== value()) {
-              picker_val = picker.get();
-              return value(picker_val);
+              return value(picker.get());
             }
           }
         } else {
