@@ -1,7 +1,11 @@
 (function() {
+  var options_map;
+
+  options_map = new WeakMap();
+
   ko.bindingHandlers.pickadate = {
     init: function(element, valueAccessor, allBindings) {
-      var $calendar_addon, $clear_button_addon, calendar_addon_position, clear_button_addon_position, key, options, options_from_binding, pickadate_options, picker, val, value, wrapper_id, _init_picker;
+      var $calendar_addon, $clear_button_addon, _init_picker, calendar_addon_position, clear_button_addon_position, key, options, options_from_binding, pickadate_options, picker, val, value, wrapper_id;
       value = valueAccessor();
       options = {
         monthsFull: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
@@ -80,6 +84,7 @@
         val = options_from_binding[key];
         options[key] = val;
       }
+      options_map.set(element, options);
       if (options.clear_button_addon || options.calendar_addon) {
         wrapper_id = new Date().getTime();
         options.container = "#" + wrapper_id;
@@ -108,16 +113,17 @@
         picker = _init_picker($(element));
       }
       picker.on('set', function(context) {
-        var item, _ref;
+        var item, picker_val, ref;
         item = picker.get('select');
         if (item) {
           if (options.update_as_date) {
-            if (item.obj.toString() !== ((_ref = value()) != null ? _ref.toString() : void 0)) {
+            if (item.obj.toString() !== ((ref = value()) != null ? ref.toString() : void 0)) {
               return value(item.obj);
             }
           } else {
             if (item !== value()) {
-              return value(picker.get());
+              picker_val = picker.get();
+              return value(picker_val);
             }
           }
         } else {
@@ -136,8 +142,9 @@
         }
       });
     },
-    update: function(element, valueAccessor, allBindings) {
-      var date, new_val, picker, value, _ref;
+    update: function(element, valueAccessor) {
+      var date, new_val, options, picker, ref, value;
+      options = options_map.get(element) || {};
       value = valueAccessor();
       new_val = ko.unwrap(value);
       picker = $(element).pickadate('picker');
@@ -145,9 +152,16 @@
         picker.set('clear');
         return;
       }
-      date = Date.parse(new_val);
-      if (date === ((_ref = picker.get('select')) != null ? _ref.pick : void 0)) {
-        return;
+      if (options.update_as_date) {
+        date = Date.parse(new_val);
+        if (date === ((ref = picker.get('select')) != null ? ref.pick : void 0)) {
+          return;
+        }
+      } else {
+        date = new_val;
+        if (date === picker.get()) {
+          return;
+        }
       }
       picker.set('select', date);
     }
