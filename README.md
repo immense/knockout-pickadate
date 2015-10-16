@@ -26,6 +26,13 @@ Include a link to the javascript and css files in your page:
 And then refer to the [demo](http://rawgit.com/immense/knockout-pickadate/master/demo.html)
 page on detailed usage instructions.
 
+**Usage Note**: The pickadate binding utilizes ES6
+[WeakMaps](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/WeakMap).
+If you are going to be using it in a browser without WeakMap support (see: [Browser
+Compatibility](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/WeakMap#Browser_compatibility)
+on MDN), you'll need to provide a shim (see:
+https://github.com/WebReflection/es6-collections).
+
 ## Building
 
 To build knockout-pickadate from the less and coffeescript source, do the

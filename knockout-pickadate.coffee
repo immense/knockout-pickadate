@@ -1,12 +1,55 @@
+options_map = new WeakMap()
 ko.bindingHandlers.pickadate =
   init: (element, valueAccessor, allBindings) ->
     value = valueAccessor()
-    options =
+    options = {
       # Strings
-      monthsFull: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
-      monthsShort: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
-      weekdaysFull: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
-      weekdaysShort: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
+      monthsFull: [
+        'January'
+        'February'
+        'March'
+        'April'
+        'May'
+        'June'
+        'July'
+        'August'
+        'September'
+        'October'
+        'November'
+        'December'
+      ]
+      monthsShort: [
+        'Jan'
+        'Feb'
+        'Mar'
+        'Apr'
+        'May'
+        'Jun'
+        'Jul'
+        'Aug'
+        'Sep'
+        'Oct'
+        'Nov'
+        'Dec'
+      ]
+      weekdaysFull: [
+        'Sunday'
+        'Monday'
+        'Tuesday'
+        'Wednesday'
+        'Thursday'
+        'Friday'
+        'Saturday'
+      ]
+      weekdaysShort: [
+        'Sun'
+        'Mon'
+        'Tue'
+        'Wed'
+        'Thu'
+        'Fri'
+        'Sat'
+      ]
       showMonthsShort: undefined
       showWeekdaysFull: undefined
 
@@ -58,61 +101,62 @@ ko.bindingHandlers.pickadate =
       # Classes
       klass: {
 
-          # The element states
-          input: 'picker__input'
-          active: 'picker__input--active'
+        # The element states
+        input: 'picker__input'
+        active: 'picker__input--active'
 
-          # The root picker and states *
-          picker: 'picker'
-          opened: 'picker--opened'
-          focused: 'picker--focused'
+        # The root picker and states *
+        picker: 'picker'
+        opened: 'picker--opened'
+        focused: 'picker--focused'
 
-          # The picker holder
-          holder: 'picker__holder'
+        # The picker holder
+        holder: 'picker__holder'
 
-          # The picker frame, wrapper, and box
-          frame: 'picker__frame'
-          wrap: 'picker__wrap'
-          box: 'picker__box'
+        # The picker frame, wrapper, and box
+        frame: 'picker__frame'
+        wrap: 'picker__wrap'
+        box: 'picker__box'
 
-          # The picker header
-          header: 'picker__header'
+        # The picker header
+        header: 'picker__header'
 
-          # Month navigation
-          navPrev: 'picker__nav--prev'
-          navNext: 'picker__nav--next'
-          navDisabled: 'picker__nav--disabled'
+        # Month navigation
+        navPrev: 'picker__nav--prev'
+        navNext: 'picker__nav--next'
+        navDisabled: 'picker__nav--disabled'
 
-          # Month & year labels
-          month: 'picker__month'
-          year: 'picker__year'
+        # Month & year labels
+        month: 'picker__month'
+        year: 'picker__year'
 
-          # Month & year dropdowns
-          selectMonth: 'picker__select--month'
-          selectYear: 'picker__select--year'
+        # Month & year dropdowns
+        selectMonth: 'picker__select--month'
+        selectYear: 'picker__select--year'
 
-          # Table of dates
-          table: 'picker__table'
+        # Table of dates
+        table: 'picker__table'
 
-          # Weekday labels
-          weekdays: 'picker__weekday'
+        # Weekday labels
+        weekdays: 'picker__weekday'
 
-          # Day states
-          day: 'picker__day'
-          disabled: 'picker__day--disabled'
-          selected: 'picker__day--selected'
-          highlighted: 'picker__day--highlighted'
-          now: 'picker__day--today'
-          infocus: 'picker__day--infocus'
-          outfocus: 'picker__day--outfocus'
+        # Day states
+        day: 'picker__day'
+        disabled: 'picker__day--disabled'
+        selected: 'picker__day--selected'
+        highlighted: 'picker__day--highlighted'
+        now: 'picker__day--today'
+        infocus: 'picker__day--infocus'
+        outfocus: 'picker__day--outfocus'
 
-          # The picker footer
-          footer: 'picker__footer'
+        # The picker footer
+        footer: 'picker__footer'
 
-          # Today & clear buttons
-          buttonClear: 'picker__button--clear'
-          buttonToday: 'picker__button--today'
+        # Today & clear buttons
+        buttonClear: 'picker__button--clear'
+        buttonToday: 'picker__button--today'
       }
+    }
 
     pickadate_options = allBindings.get('pickadate_options')
 
@@ -130,11 +174,22 @@ ko.bindingHandlers.pickadate =
     for key, val of options_from_binding
       options[key] = val
 
+    # so we dont have to parse the options from allBindings in the update method
+    options_map.set(element, options)
+
     if options.clear_button_addon or options.calendar_addon
       wrapper_id = new Date().getTime()
       options.container = "##{wrapper_id}"
-      calendar_addon_position = if options.calendar_addon is 'before' then 'before' else 'after'
-      clear_button_addon_position = if options.clear_button_addon is 'before' then 'before' else 'after'
+      calendar_addon_position = if options.calendar_addon is 'before'
+        'before'
+      else
+        'after'
+
+      clear_button_addon_position = if options.clear_button_addon is 'before'
+        'before'
+      else
+        'after'
+
       $calendar_addon =
         if options.calendar_addon
           $(
@@ -208,7 +263,8 @@ ko.bindingHandlers.pickadate =
 
     return
 
-  update: (element, valueAccessor, allBindings) ->
+  update: (element, valueAccessor) ->
+    options = options_map.get(element) or {}
     value   = valueAccessor()
     new_val = ko.unwrap value
     picker  = $(element).pickadate('picker')
@@ -218,14 +274,18 @@ ko.bindingHandlers.pickadate =
       picker.set('clear')
       return
 
-    date = Date.parse(new_val)
-
-    return if date is picker.get('select')?.pick
+    if options.update_as_date
+      date = Date.parse(new_val)
+      return if date is picker.get('select')?.pick
+    else
+      date = new_val
+      return if date is picker.get()
 
     # Try setting picker to whatever was passed in
     #
-    # Pickadate seems to convert anything it can't handle (e.g. errors, NaN) to today's date
-    # TODO: Maybe there's something more sensible than that?
+    # TODO Pickadate seems to convert anything it can't handle
+    # (e.g. errors, NaN) to today's date.
+    # Maybe there's something more sensible than that?
     picker.set 'select', date
 
     return
